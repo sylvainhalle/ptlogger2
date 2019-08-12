@@ -43,6 +43,25 @@ import ca.uqac.lif.cep.util.Equals;
 import ca.uqac.lif.cep.util.Lists;
 import ca.uqac.lif.cep.util.Numbers;
 
+/**
+ * Computes a number of hours, grouping log entries into periods.
+ * Graphically, this chain of processors is represented as follows:
+ * <p>
+ * <img src="{@docRoot}/doc-files/GetTimeByPeriod.png" alt="Processor chain">
+ * <p>
+ * This processor has two parameters:
+ * <ul>
+ * <li>A function <i>g</i> that associates an input tuple to a group.
+ * For example, to compute hours per month, <i>g</i> can be a function
+ * that associates to each tuple the year-month value of its <tt>Date</tt>
+ * attribute. To compute hours per week, <i>g</i> can be a function that
+ * associates each tuple to a value composed of the year and week number
+ * into the year. Etc.</li>
+ * <li>A processor P that can perform an optional aggregation over the
+ * values computed for each period. If no aggregation is desired, P can
+ * simply be a {@link Passthrough}.</li>
+ * </ul>
+ */
 public class GetTimePerPeriod extends GroupProcessor
 {
   public GetTimePerPeriod(Function group_function, Processor aggregation)
