@@ -59,6 +59,21 @@ import java.util.List;
 
 public class Main
 {
+  /**
+   * The major version number
+   */
+  private static final transient int s_majorVersionNumber = 1;
+
+  /**
+   * The minor version number
+   */
+  private static final transient int s_minorVersionNumber = 90;
+
+  /**
+   * The revision version number
+   */
+  private static final transient int s_revisionVersionNumber = 0;
+
   public static void main(String[] args) throws FileNotFoundException
   {
     AnsiPrinter out = new AnsiPrinter(System.out);
@@ -77,11 +92,25 @@ public class Main
     parser.addArgument(new Argument().withLongName("debt").withArgument("file").withDescription("Show debt instead of time; read account from file"));
     parser.addArgument(new Argument().withShortName("o").withLongName("output").withArgument("file").withDescription("Writes output to file"));
     parser.addArgument(new Argument().withLongName("help").withDescription("Show command line usage"));
+    parser.addArgument(new Argument().withLongName("quiet").withDescription("Don't show messages, only data"));
     ArgumentMap arg_map = parser.parse(args);
+
+    // Show help?
+    if (arg_map.containsKey("help"))
+    {
+      parser.printHelp(getCliHeader(), stdout);
+      return 0;
+    }
+
+    // Show header
+    if (!arg_map.containsKey("quiet"))
+    {
+      stdout.println(getCliHeader());
+    }
 
     // Read list of filenames, and create a source that splices them together
     List<String> filenames = arg_map.getOthers();
-    if (filenames.size() == 0)
+    if (filenames == null || filenames.size() == 0)
     {
       stderr.println("No filename specified");
       return 2;
@@ -175,7 +204,7 @@ public class Main
 
     // Launch computation
     global_pump.run();
-    
+
     // Exit
     return 0;
   }
@@ -205,7 +234,7 @@ public class Main
     }
     return group;
   }
-  
+
   protected static Processor getWeeklyHours(boolean cumulate, boolean with_plot)
   {
     GroupProcessor group = new GroupProcessor(1, 1);
@@ -240,5 +269,58 @@ public class Main
       }
     }
     return group;
+  }
+
+  /**
+   * Gets the command line header
+   * @return The header
+   */
+  protected static String getCliHeader()
+  {
+    return "PartTime Logger II v" + formatVersion() + " - A time tracking application\n(C) 2005-2019 Sylvain Hallé, all rights reserved\n";
+  }
+  
+  /**
+   * Gets the major version number
+   * 
+   * @return The number
+   */
+  public static final int getMajor()
+  {
+    return s_majorVersionNumber;
+  }
+
+  /**
+   * Gets the minor version number
+   * 
+   * @return The number
+   */
+  public static final int getMinor()
+  {
+    return s_minorVersionNumber;
+  }
+
+  /**
+   * Gets the revision version number
+   * 
+   * @return The number
+   */
+  public static final int getRevision()
+  {
+    return s_revisionVersionNumber;
+  }
+
+  /**
+   * Formats the version number into a string
+   * 
+   * @return The version string
+   */
+  protected static String formatVersion()
+  {
+    if (getRevision() == 0)
+    {
+      return s_majorVersionNumber + "." + s_minorVersionNumber;
+    }
+    return s_majorVersionNumber + "." + s_minorVersionNumber + "." + s_revisionVersionNumber;
   }
 }

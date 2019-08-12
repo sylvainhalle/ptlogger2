@@ -21,21 +21,27 @@
 <build>
   <!-- Uncomment any of these if you want to override the build
        script's default values -->
-
+                 
   <!-- The project's name -->
-  <!-- <name>AntRun</name> -->
+  <name>Part-time Logger II</name>
   
   <!-- The project's author. Currently this only
   shows up in the footer of the Javadoc documentation. -->
-  <!-- <author>Marty McFly</author> -->
+  <author>Sylvain Hallé</author>
   
   <!-- The project's main class -->
-  <!-- <mainclass>my.package.MainClass</mainclass> -->
+  <mainclass>ca.uqac.lif.ptlogger2.Main</mainclass>
   
   <test>
     <!-- The filename pattern to recognize test files -->
     <!-- <filenamepattern>**/*Test.java</filenamepattern> -->
   </test>
+  
+  <depdir>Source/Core/dep</depdir>
+  
+  <jar>
+  	<filename>ptlogger2.jar</filename>
+  </jar>
   
   <!--
     Write JAR dependencies here.
