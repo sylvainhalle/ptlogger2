@@ -20,6 +20,7 @@ package ca.uqac.lif.ptlogger2;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * Utility methods for handling dates. 
@@ -29,7 +30,23 @@ public class DateUtils
   /**
    * A simple date format
    */
-  protected static final transient SimpleDateFormat s_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  protected static final transient SimpleDateFormat s_dateFormat;
+  
+  static
+  {
+    s_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    s_dateFormat.setTimeZone(TimeZone.getTimeZone("EDT"));
+  }
+  
+  /**
+   * Gets a string corresponding to the current date in the current timezone
+   * @return The string
+   */
+  public static String getTodayString()
+  {
+    Calendar cal = Calendar.getInstance();
+    return print(cal);
+  }
 
   /**
    * Gets a Calendar from a string representing a date

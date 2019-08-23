@@ -55,7 +55,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class Main
 {
@@ -72,7 +74,7 @@ public class Main
   /**
    * The revision version number
    */
-  private static final transient int s_revisionVersionNumber = 0;
+  private static final transient int s_revisionVersionNumber = 1;
 
   public static void main(String[] args) throws FileNotFoundException
   {
@@ -86,6 +88,8 @@ public class Main
     CliParser parser = new CliParser();
     parser.addArgument(new Argument().withLongName("start-date").withArgument("date").withDescription("Start at date"));
     parser.addArgument(new Argument().withLongName("end-date").withArgument("date").withDescription("End at date"));
+    parser.addArgument(new Argument().withLongName("today").withDescription("Show only for today"));
+    parser.addArgument(new Argument().withLongName("thisweek").withDescription("Show only for this week"));
     parser.addArgument(new Argument().withLongName("week-of").withArgument("date").withDescription("Show for week containing date"));
     parser.addArgument(new Argument().withShortName("c").withLongName("categories").withArgument("cats").withDescription("Keeps only a comma-separated list of categories"));
     parser.addArgument(new Argument().withLongName("show").withArgument("x").withDescription("Performs computation x"));
@@ -136,7 +140,7 @@ public class Main
     if (arg_map.containsKey("start-date"))
     {
       String start_date = arg_map.get("start-date");
-      String end_date = "2019-08-10"; // TODO: find today
+      String end_date = DateUtils.getTodayString();
       if (arg_map.containsKey("end-date"))
       {
         end_date = arg_map.get("end-date");
@@ -144,6 +148,25 @@ public class Main
       InDateInterval idi = new InDateInterval(start_date, end_date);
       // Apply the conjunction of this function to the existing condition
       FunctionTree and = new FunctionTree(Booleans.and, idi, filter_condition);
+      filter_condition = and;
+    }
+    if (arg_map.containsKey("today"))
+    {
+      String start_date = DateUtils.getTodayString();
+      String end_date = start_date;
+      //stdout.print("Filter: " + start_date);
+      InDateInterval idi = new InDateInterval(start_date, end_date);
+      // Apply the conjunction of this function to the existing condition
+      FunctionTree and = new FunctionTree(Booleans.and, idi, filter_condition);
+      filter_condition = and;
+    }
+    if (arg_map.containsKey("thisweek"))
+    {
+      String week_date = DateUtils.getTodayString();
+      //stdout.print("Week of: " + week_date);
+      InWeekOf iwo = new InWeekOf(week_date);
+      // Apply the conjunction of this function to the existing condition
+      FunctionTree and = new FunctionTree(Booleans.and, iwo, filter_condition);
       filter_condition = and;
     }
     // Week of?

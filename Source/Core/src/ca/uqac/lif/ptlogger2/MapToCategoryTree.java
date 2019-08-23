@@ -34,6 +34,10 @@ public class MapToCategoryTree extends UnaryFunction<Map,CategoryNode>
   public CategoryNode getValue(Map map)
   {
     CategoryNode root = new CategoryNode("", 0);
+    if (map == null)
+    {
+      return root;
+    }
     for (Object o : map.entrySet())
     {
       Map.Entry<?,?> entry = (Map.Entry<?,?>) o;
