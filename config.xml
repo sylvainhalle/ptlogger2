@@ -48,20 +48,35 @@
   -->
   <dependencies>
     <dependency>
-      <!-- This entry points to a nonexistent class on purpose, to test
-      whether the detection/download of dependencies works. Delete this in
-      a real-world project.
-      -->
-      <name>Test Dep</name>
-      <classname>ca.uqac.lif.NonExistentClass</classname>
+      <name>Bullwinkle</name>
+      <classname>ca.uqac.lif.util.CliParser</classname>
       <files>
-        <!-- You typically need only one of these two for each dependency -->
-        <jar>http://sylvainhalle.github.io/AntRun/placeholders/dummy-jar.jar</jar>
-        <zip>http://sylvainhalle.github.io/AntRun/placeholders/dummy-zip.zip</zip>
+        <zip>https://github.com/sylvainhalle/Bullwinkle/releases/download/v1.4.4/bullwinkle-1.4.4.zip</zip>
       </files>
       <!-- The following parameter is mandatory. Set it to false if you don't
            want this library to be bundled into the compiled JAR. -->
       <bundle>true</bundle>
+    </dependency>
+  	<dependency>
+      <name>BeepBeep 3</name>
+      <classname>ca.uqac.lif.cep.Processor</classname>
+      <files>
+        <zip>https://github.com/liflab/beepbeep-3/releases/download/v0.10.2-alpha/beepbeep-3-0.10.2-alpha.zip</zip>
+      </files>
+      <!-- The following parameter is mandatory. Set it to false if you don't
+           want this library to be bundled into the compiled JAR. -->
+      <bundle>true</bundle>
+    </dependency>
+    <dependency>
+      <!--
+      BeepBeep core
+      -->
+      <name>BeepBeep 3 Palette Bundle</name>
+      <classname>ca.uqac.lif.cep.tuples.Tuple</classname>
+      <bundle>true</bundle>
+      <files>
+        <zip>https://github.com/liflab/beepbeep-3-palettes/releases/download/20190309/beepbeep-3-palettes-v20190309.zip</zip>
+      </files>
     </dependency>
   </dependencies>
 </build>
