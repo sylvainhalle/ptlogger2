@@ -33,7 +33,7 @@ public class GetLastSunday extends UnaryFunction<Calendar,String>
   public String getValue(Calendar cal)
   {
     int day_of_week = cal.get(Calendar.DAY_OF_WEEK);
-    int offset = day_of_week - Calendar.SUNDAY;
+    int offset = day_of_week - Calendar.SUNDAY + 1;
     Calendar cal_s = Calendar.getInstance();
     cal_s.setTime(cal.getTime());
     cal_s.add(Calendar.DAY_OF_MONTH, -offset);

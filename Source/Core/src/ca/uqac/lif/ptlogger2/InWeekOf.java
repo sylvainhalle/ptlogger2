@@ -28,7 +28,7 @@ public class InWeekOf extends InDateInterval
     Calendar cal = DateUtils.valueOf(week_date);
     // Find sunday before date
     int day_of_week = cal.get(Calendar.DAY_OF_WEEK);
-    int offset = day_of_week - Calendar.SUNDAY;
+    int offset = day_of_week - Calendar.SUNDAY + 1;
     m_startDate = Calendar.getInstance();
     m_startDate.setTime(cal.getTime());
     m_startDate.add(Calendar.DAY_OF_MONTH, -offset);

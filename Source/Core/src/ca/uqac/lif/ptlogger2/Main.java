@@ -55,9 +55,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 public class Main
 {
@@ -74,7 +72,7 @@ public class Main
   /**
    * The revision version number
    */
-  private static final transient int s_revisionVersionNumber = 1;
+  private static final transient int s_revisionVersionNumber = 2;
 
   public static void main(String[] args) throws FileNotFoundException
   {
@@ -86,23 +84,28 @@ public class Main
   public static int mainLoop(String[] args, AnsiPrinter stdout, AnsiPrinter stderr) throws FileNotFoundException
   {
     CliParser parser = new CliParser();
-    parser.addArgument(new Argument().withLongName("start-date").withArgument("date").withDescription("Start at date"));
-    parser.addArgument(new Argument().withLongName("end-date").withArgument("date").withDescription("End at date"));
-    parser.addArgument(new Argument().withLongName("today").withDescription("Show only for today"));
-    parser.addArgument(new Argument().withLongName("thisweek").withDescription("Show only for this week"));
-    parser.addArgument(new Argument().withLongName("week-of").withArgument("date").withDescription("Show for week containing date"));
+    parser.addArgument(new Argument().withLongName("start").withArgument("date").withDescription("\tStart at date"));
+    parser.addArgument(new Argument().withLongName("end").withArgument("date").withDescription("\tEnd at date"));
+    parser.addArgument(new Argument().withLongName("today").withDescription("\tShow only for today"));
+    parser.addArgument(new Argument().withLongName("this-week").withDescription("\tShow only for this week"));
+    parser.addArgument(new Argument().withLongName("week-of").withArgument("date").withDescription("\tShow for week containing date"));
     parser.addArgument(new Argument().withShortName("c").withLongName("categories").withArgument("cats").withDescription("Keeps only a comma-separated list of categories"));
-    parser.addArgument(new Argument().withLongName("show").withArgument("x").withDescription("Performs computation x"));
-    parser.addArgument(new Argument().withLongName("debt").withArgument("file").withDescription("Show debt instead of time; read account from file"));
+    parser.addArgument(new Argument().withLongName("show").withArgument("x").withDescription("\tPerforms computation x"));
+    //parser.addArgument(new Argument().withLongName("debt").withArgument("file").withDescription("\tShow debt instead of time; read account from file"));
     parser.addArgument(new Argument().withShortName("o").withLongName("output").withArgument("file").withDescription("Writes output to file"));
-    parser.addArgument(new Argument().withLongName("help").withDescription("Show command line usage"));
-    parser.addArgument(new Argument().withLongName("quiet").withDescription("Don't show messages, only data"));
+    parser.addArgument(new Argument().withLongName("help").withDescription("\t\tShow command line usage"));
+    parser.addArgument(new Argument().withLongName("quiet").withDescription("\tDon't show messages, only data"));
     ArgumentMap arg_map = parser.parse(args);
 
     // Show help?
+    if (arg_map == null)
+    {
+    	parser.printHelp(getCliHeader() + "Invalid command line arguments", stderr);
+    	return 1;
+    }
     if (arg_map.containsKey("help"))
     {
-      parser.printHelp(getCliHeader(), stdout);
+      parser.printHelp(getCliHeader(), stderr);
       return 0;
     }
 
@@ -116,8 +119,9 @@ public class Main
     List<String> filenames = arg_map.getOthers();
     if (filenames == null || filenames.size() == 0)
     {
-      stderr.println("No filename specified");
-      return 2;
+    	// If no filename, assume currentyear.md
+    	// Look out: we assume that year has four digits ;-)
+    	filenames.add(DateUtils.getTodayString().substring(0, 4) + ".md");
     }
     ReadLines[] readlines = new ReadLines[filenames.size()];
     for (int i = 0; i < filenames.size(); i++)
@@ -137,13 +141,13 @@ public class Main
     // Apply optional filter; by default, no filtering (condition = true)
     Function filter_condition = new RaiseArity(1, new Constant(true));
     // Start/end dates?
-    if (arg_map.containsKey("start-date"))
+    if (arg_map.containsKey("start"))
     {
       String start_date = arg_map.get("start-date");
       String end_date = DateUtils.getTodayString();
       if (arg_map.containsKey("end-date"))
       {
-        end_date = arg_map.get("end-date");
+        end_date = arg_map.get("end");
       }
       InDateInterval idi = new InDateInterval(start_date, end_date);
       // Apply the conjunction of this function to the existing condition
@@ -160,7 +164,7 @@ public class Main
       FunctionTree and = new FunctionTree(Booleans.and, idi, filter_condition);
       filter_condition = and;
     }
-    if (arg_map.containsKey("thisweek"))
+    if (arg_map.containsKey("this-week"))
     {
       String week_date = DateUtils.getTodayString();
       //stdout.print("Week of: " + week_date);
