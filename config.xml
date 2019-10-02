@@ -69,13 +69,24 @@
     </dependency>
     <dependency>
       <!--
-      BeepBeep core
+      BeepBeep tuples
       -->
-      <name>BeepBeep 3 Palette Bundle</name>
+      <name>BeepBeep 3 Tuples Palette</name>
       <classname>ca.uqac.lif.cep.tuples.Tuple</classname>
       <bundle>true</bundle>
       <files>
-        <zip>https://github.com/liflab/beepbeep-3-palettes/releases/download/20190309/beepbeep-3-palettes-v20190309.zip</zip>
+        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v20191002/tuples.jar</jar>
+      </files>
+    </dependency>
+    <dependency>
+      <!--
+      BeepBeep tables and plots
+      -->
+      <name>BeepBeep 3 MTNP Palette</name>
+      <classname>ca.uqac.lif.mtnp.plot.gnuplot.Scatterplot</classname>
+      <bundle>true</bundle>
+      <files>
+        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v20191002/mtnp.jar</jar>
       </files>
     </dependency>
   </dependencies>
