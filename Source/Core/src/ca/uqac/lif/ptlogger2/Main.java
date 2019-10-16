@@ -72,7 +72,7 @@ public class Main
   /**
    * The revision version number
    */
-  private static final transient int s_revisionVersionNumber = 2;
+  private static final transient int s_revisionVersionNumber = 3;
 
   public static void main(String[] args) throws FileNotFoundException
   {
@@ -143,9 +143,9 @@ public class Main
     // Start/end dates?
     if (arg_map.containsKey("start"))
     {
-      String start_date = arg_map.get("start-date");
+      String start_date = arg_map.get("start");
       String end_date = DateUtils.getTodayString();
-      if (arg_map.containsKey("end-date"))
+      if (arg_map.containsKey("end"))
       {
         end_date = arg_map.get("end");
       }

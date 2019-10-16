@@ -35,7 +35,7 @@ public class DateUtils
   static
   {
     s_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    s_dateFormat.setTimeZone(TimeZone.getTimeZone("EDT"));
+    s_dateFormat.setTimeZone(TimeZone.getDefault());
   }
   
   /**
@@ -44,7 +44,7 @@ public class DateUtils
    */
   public static String getTodayString()
   {
-    Calendar cal = Calendar.getInstance();
+    Calendar cal = Calendar.getInstance(TimeZone.getDefault());
     return print(cal);
   }
 
