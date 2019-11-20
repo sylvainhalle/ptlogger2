@@ -46,8 +46,10 @@ public class InDateInterval extends UnaryFunction<Tuple,Boolean>
   public InDateInterval(String start_date, String end_date)
   {
     super(Tuple.class, Boolean.class);
-    m_startDate = DateUtils.valueOf(start_date);
-    m_endDate = DateUtils.valueOf(end_date);
+    m_startDate = Calendar.getInstance();
+    m_startDate.setTime(DateUtils.valueOf(start_date).getTime());
+    m_endDate = Calendar.getInstance();
+    m_endDate.setTime(DateUtils.valueOf(end_date).getTime());
   }
   
   @Override

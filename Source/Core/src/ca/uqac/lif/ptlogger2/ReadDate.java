@@ -59,7 +59,8 @@ public class ReadDate extends UniformProcessor
     String line = ((String) inputs[0]).trim();
     if (line.matches("^\\d{4}-\\d{2}-\\d{2}[\\s\\{]*"))
     {
-      m_lastElement = DateUtils.valueOf(line.substring(0, 10));
+      m_lastElement = Calendar.getInstance();
+      m_lastElement.setTime(DateUtils.valueOf(line.substring(0, 10)).getTime());
     }
     outputs[0] = m_lastElement;
     return true;
