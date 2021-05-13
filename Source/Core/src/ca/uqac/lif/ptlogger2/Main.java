@@ -1,6 +1,6 @@
 /*
     Part-time Logger 2, a time tracking application
-    Copyright (C) 2019  Sylvain Hallé
+    Copyright (C) 2019-2021  Sylvain Hallé
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published
@@ -47,15 +47,21 @@ import ca.uqac.lif.cep.tmf.Splice;
 import ca.uqac.lif.cep.tmf.Trim;
 import ca.uqac.lif.cep.util.Booleans;
 import ca.uqac.lif.cep.util.Numbers;
+import ca.uqac.lif.mtnp.util.FileHelper;
 import ca.uqac.lif.tui.AnsiPrinter;
 import ca.uqac.lif.util.CliParser;
 import ca.uqac.lif.util.CliParser.Argument;
 import ca.uqac.lif.util.CliParser.ArgumentMap;
+import net.harawata.appdirs.AppDirsFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Properties;
 
 public class Main
 {
@@ -72,7 +78,7 @@ public class Main
   /**
    * The revision version number
    */
-  private static final transient int s_revisionVersionNumber = 3;
+  private static final transient int s_revisionVersionNumber = 4;
 
   public static void main(String[] args) throws FileNotFoundException
   {
@@ -114,6 +120,34 @@ public class Main
     {
       stdout.println(getCliHeader());
     }
+    
+    // Check for presence of a configuration file
+    Properties properties = new Properties();
+    String local_config_dir = AppDirsFactory.getInstance().getUserConfigDir("ptlogger2", "", "");
+    if (FileHelper.fileExists(local_config_dir + "config.properties"))
+    {
+    	FileReader reader = new FileReader(local_config_dir + "config.properties");
+    	try
+			{
+				properties.load(reader);
+			}
+			catch (IOException e)
+			{
+				stderr.println("Cannot load properties file " + local_config_dir + "config.properties");
+			}
+    }
+    String base_folder = "";
+    {
+    	String bf = properties.getProperty("basefolder");
+    	if (bf != null)
+    	{
+    		base_folder = bf;
+      	if (!base_folder.endsWith("/"))
+      	{
+      		base_folder += "/";
+      	}	
+    	}
+    }
 
     // Read list of filenames, and create a source that splices them together
     List<String> filenames = arg_map.getOthers();
@@ -126,7 +160,26 @@ public class Main
     ReadLines[] readlines = new ReadLines[filenames.size()];
     for (int i = 0; i < filenames.size(); i++)
     {
-      readlines[i] = new ReadLines(new FileInputStream(new File(filenames.get(i))));
+    	String filename = filenames.get(i);
+    	File f = new File(filename);
+    	File f_to_read = null;
+    	if (f.isAbsolute())
+    	{
+    		f_to_read = f;
+    	}
+    	else
+    	{
+    		f_to_read = new File(base_folder + filename);
+    	}
+    	try
+    	{
+    		readlines[i] = new ReadLines(new FileInputStream(f_to_read));
+    	}
+    	catch (FileNotFoundException e)
+    	{
+    		stderr.println("File not found: " + f_to_read.getAbsolutePath());
+    		return 1;
+    	}
     }
     Splice source = new Splice(readlines);
 
@@ -304,7 +357,7 @@ public class Main
    */
   protected static String getCliHeader()
   {
-    return "PartTime Logger II v" + formatVersion() + " - A time tracking application\n(C) 2005-2019 Sylvain Hallé, all rights reserved\n";
+    return "PartTime Logger II v" + formatVersion() + " - A time tracking application\n(C) 2005-2021 Sylvain Hallé, all rights reserved\n";
   }
   
   /**

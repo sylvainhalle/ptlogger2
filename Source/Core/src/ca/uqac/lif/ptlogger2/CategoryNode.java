@@ -1,6 +1,6 @@
 /*
     Part-time Logger 2, a time tracking application
-    Copyright (C) 2019  Sylvain Hallé
+    Copyright (C) 2019-2021  Sylvain Hallé
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published
@@ -59,11 +59,15 @@ public class CategoryNode
     }
     if (path.size() == 1)
     {
-    	m_value = value;
-      String label = path.get(0);
-      if (label.isEmpty())
+    	String label = path.get(0);
+    	for (CategoryNode child : m_children)
       {
-        return;
+        if (child.m_label.compareTo(label) == 0)
+        {
+        	int c_value = (int) child.m_value;
+        	child.m_value = c_value + (int) value;
+          return;
+        }
       }
       m_children.add(new CategoryNode(path.get(0), value));
       return;
@@ -116,7 +120,7 @@ public class CategoryNode
       out.append(" ");
     }
     out.append(String.format("%6.2f", new_weight));
-    if (!m_children.isEmpty() && ((Number) m_value).floatValue() > weight)
+    if (!m_children.isEmpty() && ((Number) m_value).floatValue() > 0)
     {
       out.append("\n");
       label = "(root)";

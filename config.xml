@@ -89,5 +89,16 @@
         <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v20210430/mtnp.jar</jar>
       </files>
     </dependency>
+    <dependency>
+      <!--
+      BeepBeep tables and plots
+      -->
+      <name>Appdirs</name>
+      <classname>net.harawata.appdirs.AppDirs</classname>
+      <bundle>true</bundle>
+      <files>
+        <jar>https://github.com/harawata/appdirs/releases/download/appdirs-1.2.1/appdirs-1.2.1.jar</jar>
+      </files>
+    </dependency>
   </dependencies>
 </build>
