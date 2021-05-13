@@ -59,10 +59,10 @@ public class CategoryNode
     }
     if (path.size() == 1)
     {
+    	m_value = value;
       String label = path.get(0);
       if (label.isEmpty())
       {
-        m_value = value;
         return;
       }
       m_children.add(new CategoryNode(path.get(0), value));
@@ -116,7 +116,7 @@ public class CategoryNode
       out.append(" ");
     }
     out.append(String.format("%6.2f", new_weight));
-    if (!m_children.isEmpty() && ((Number) m_value).floatValue() > 0)
+    if (!m_children.isEmpty() && ((Number) m_value).floatValue() > weight)
     {
       out.append("\n");
       label = "(root)";
