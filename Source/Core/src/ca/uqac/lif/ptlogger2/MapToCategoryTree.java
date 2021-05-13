@@ -33,7 +33,7 @@ public class MapToCategoryTree extends UnaryFunction<Map,CategoryNode>
   @Override
   public CategoryNode getValue(Map map)
   {
-    CategoryNode root = new CategoryNode("", 0);
+    CategoryNode root = new CategoryNode("Ecole", 0);
     if (map == null)
     {
       return root;

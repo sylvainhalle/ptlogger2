@@ -112,7 +112,7 @@ public class CategoryNode
     String label = m_label;
     if (m_label.isEmpty())
     {
-      label = "Ecole";
+      label = "(root)";
     }
     out.append(label);
     for (int i = indent.length() + label.length(); i < width; i++)
