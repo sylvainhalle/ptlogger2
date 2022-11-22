@@ -64,8 +64,8 @@ public class CategoryNode
       {
         if (child.m_label.compareTo(label) == 0)
         {
-        	int c_value = (int) child.m_value;
-        	child.m_value = c_value + (int) value;
+        	int c_value = (Integer) child.m_value;
+        	child.m_value = c_value + (Integer) value;
           return;
         }
       }
