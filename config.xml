@@ -51,20 +51,16 @@
       <name>Bullwinkle</name>
       <classname>ca.uqac.lif.util.CliParser</classname>
       <files>
-        <zip>https://github.com/sylvainhalle/Bullwinkle/releases/download/v1.4.5/bullwinkle-1.4.5.zip</zip>
+        <zip>https://github.com/sylvainhalle/Bullwinkle/releases/download/v1.4.6/bullwinkle-1.4.6.zip</zip>
       </files>
-      <!-- The following parameter is mandatory. Set it to false if you don't
-           want this library to be bundled into the compiled JAR. -->
       <bundle>true</bundle>
     </dependency>
   	<dependency>
       <name>BeepBeep 3</name>
       <classname>ca.uqac.lif.cep.Processor</classname>
       <files>
-        <zip>https://github.com/liflab/beepbeep-3/releases/download/v0.10.5-alpha/beepbeep-3-0.10.5-alpha.zip</zip>
+        <jar>https://github.com/liflab/beepbeep-3/releases/download/v0.11.3/beepbeep-3-0.11.3.jar</jar>
       </files>
-      <!-- The following parameter is mandatory. Set it to false if you don't
-           want this library to be bundled into the compiled JAR. -->
       <bundle>true</bundle>
     </dependency>
     <dependency>
@@ -75,7 +71,7 @@
       <classname>ca.uqac.lif.cep.tuples.Tuple</classname>
       <bundle>true</bundle>
       <files>
-        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v20210430/tuples.jar</jar>
+        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v0.8.1/tuples-0.8.1.jar</jar>
       </files>
     </dependency>
     <dependency>
@@ -86,7 +82,7 @@
       <classname>ca.uqac.lif.mtnp.plot.gnuplot.Scatterplot</classname>
       <bundle>true</bundle>
       <files>
-        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v20210430/mtnp.jar</jar>
+        <jar>https://github.com/liflab/beepbeep-3-palettes/releases/download/v0.8.1/mtnp-0.8.1.jar</jar>
       </files>
     </dependency>
     <dependency>
